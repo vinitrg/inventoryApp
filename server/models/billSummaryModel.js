@@ -1,0 +1,19 @@
+export class _billSummaryModel {
+    itemsSpecification;
+    dateOfOrder;
+    orderedBy;
+    deliveryDate;
+    supervisedBy;
+    quantity;
+    rate;
+    totalBill;
+    gst;
+    paidBy;
+    paidAmount;
+    pendingBillAmount;
+    paidRemarks;
+    srNo;
+    selectedUnit;
+    entryDate;
+    paymentMode;
+}

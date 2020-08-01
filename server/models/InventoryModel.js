@@ -1,0 +1,19 @@
+export class _InventoryModel 
+{
+    itemsSpecification;
+    dateOfOrder;
+    orderedBy;
+    deliveryDate;
+    supervisedBy;
+    quantity;
+    rate;
+    totalBill;
+    gst;
+    paidBy;
+    paidAmount;
+    pendingBillAmount;
+    paidRemarks;
+    srNo;
+    selectedUnit;
+    selectedPaymentMode;
+}
