@@ -1,17 +1,16 @@
 let express = require('express')
 let app = express()
-const {MongoClient} = require('mongodb');
 
-let items = 
-[
-    //itemsSpecification;
-    //dateOfOrder;
-    //orderedBy;
-    //deliveryDate;
-    {id:11, itemsSpecification:"Sand", dateOfOrder:"14Jun2020", orderedBy:"Neha", rate:400},
-    {id:12, itemsSpecification:"Cenment", dateOfOrder:"11Mar2020", orderedBy:"Neha", rate:500},
-    {id:13, itemsSpecification:"Bricks", dateOfOrder:"1July2020", orderedBy:"Vinit", rate:1400},
+
+var itemsClass = require('../server/models/InventoryModel.js');
+var newitem = new itemsClass.inventoryModel();
+newitem = [
+    itemsSpecification = "thepla",
+    dateOfOrder ="01August"
 ]
+
+var items = [];
+items.push(newitem)
 
 app.get("/",(req,res)=>{
     res.send("You called Home")
@@ -34,12 +33,28 @@ app.post("/items",(req,res)=>{
     console.log(req.body.name);
     console.log(req.body.price);
 
-    let product = {
+    let item = {
         id:parseInt(req.body.id), 
         name:req.body.name, 
-        price:parseInt(req.body.price)
+        price:parseDouble(req.body.price),
+        itemsSpecification:req.body.itemsSpecification,
+        dateOfOrder:req.body.dateOfOrder,
+        orderedBy:req.body.orderedBy,
+        deliveryDate:req.body.deliveryDate,
+        supervisedBy:req.body.supervisedBy,
+        quantity:parseDouble(req.body.quantity),
+        rate:parseDouble(req.body.rate),
+        totalBill:parseDouble(req.body.totalBill),
+        gst:parseDouble(req.body.gst),
+        paidBy:req.body.paidBy,
+        paidAmount:parseDouble(req.body.paidAmount),
+        pendingBillAmount:parseDouble(req.body.pendingBillAmount),
+        paidRemarks:req.body.paidRemarks,
+        srNo:req.body.srNo,
+        selectedUnit:req.body.selectedUnit,
+        selectedPaymentMode:req.body.selectedPaymentMode
     }
-    items.push(product);
+    items.push(item);
     res.send(items)
 });
 
