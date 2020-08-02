@@ -6,7 +6,21 @@ var itemsClass = require('../server/models/InventoryModel.js');
 var newitem = new itemsClass.inventoryModel();
 newitem = [
     itemsSpecification = "thepla",
-    dateOfOrder ="01August"
+    dateOfOrder ="01August",
+    orderedBy = "",
+    deliveryDate = "",
+    supervisedBy = "",
+    quantity = "",
+    rate = "",
+    totalBill = "",
+    gst = "",
+    paidBy = "",
+    paidAmount = "",
+    pendingBillAmount = "",
+    paidRemarks = "",
+    srNo = "",
+    selectedUnit = "",
+    selectedPaymentMode = "",
 ]
 
 var items = [];

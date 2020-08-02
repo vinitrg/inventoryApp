@@ -4,20 +4,20 @@ class inventoryModel
     {
         this.itemsSpecification;
         this.dateOfOrder;
-        // orderedBy;
-        // deliveryDate;
-        // supervisedBy;
-        // quantity;
-        // rate;
-        // totalBill;
-        // gst;
-        // paidBy;
-        // paidAmount;
-        // pendingBillAmount;
-        // paidRemarks;
-        // srNo;
-        // selectedUnit;
-        // selectedPaymentMode;
+        this.orderedBy;
+        this.deliveryDate;
+        this.supervisedBy;
+        this.quantity;
+        this.rate;
+        this.totalBill;
+        this.gst;
+        this.paidBy;
+        this.paidAmount;
+        this.pendingBillAmount;
+        this.paidRemarks;
+        this.srNo;
+        this.selectedUnit;
+        this.selectedPaymentMode;
     }
 }
 
