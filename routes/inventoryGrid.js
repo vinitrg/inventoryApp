@@ -1,26 +1,32 @@
 let express = require('express')
+const bodyParser = require('body-parser');
+const router = express.Router();
 let app = express()
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(router);
 
 var itemsClass = require('../server/models/InventoryModel.js');
 var newitem = new itemsClass.inventoryModel();
 newitem = [
     itemsSpecification = "thepla",
     dateOfOrder ="01August",
-    orderedBy = "",
-    deliveryDate = "",
-    supervisedBy = "",
-    quantity = "",
-    rate = "",
-    totalBill = "",
-    gst = "",
-    paidBy = "",
-    paidAmount = "",
-    pendingBillAmount = "",
-    paidRemarks = "",
-    srNo = "",
-    selectedUnit = "",
-    selectedPaymentMode = "",
+    orderedBy = "Neha",
+    // deliveryDate = "02August",
+    // supervisedBy = "Vinit",
+    // quantity = "10",
+    // rate = "20",
+    // totalBill = "200",
+    // gst = "18",
+    // paidBy = "Neha",
+    // paidAmount = "200",
+    // pendingBillAmount = "36",
+    // paidRemarks = "",
+    // srNo = "",
+    // selectedUnit = "",
+    // selectedPaymentMode = "",
 ]
 
 var items = [];
@@ -43,30 +49,28 @@ app.get("/items/:id",(req,res)=>{
 
 app.post("/items",(req,res)=>{
     console.log("POST Request received!");
-    console.log(req.body.id);
-    console.log(req.body.name);
-    console.log(req.body.price);
+    // console.log(req.body.id);
+    // console.log(req.body.name);
+    // console.log(req.body.price);
 
-    let item = {
-        id:parseInt(req.body.id), 
-        name:req.body.name, 
-        price:parseDouble(req.body.price),
+    let item = new itemsClass.inventoryModel()
+    item = {
         itemsSpecification:req.body.itemsSpecification,
         dateOfOrder:req.body.dateOfOrder,
         orderedBy:req.body.orderedBy,
-        deliveryDate:req.body.deliveryDate,
-        supervisedBy:req.body.supervisedBy,
-        quantity:parseDouble(req.body.quantity),
-        rate:parseDouble(req.body.rate),
-        totalBill:parseDouble(req.body.totalBill),
-        gst:parseDouble(req.body.gst),
-        paidBy:req.body.paidBy,
-        paidAmount:parseDouble(req.body.paidAmount),
-        pendingBillAmount:parseDouble(req.body.pendingBillAmount),
-        paidRemarks:req.body.paidRemarks,
-        srNo:req.body.srNo,
-        selectedUnit:req.body.selectedUnit,
-        selectedPaymentMode:req.body.selectedPaymentMode
+        // deliveryDate:req.body.deliveryDate,
+        // supervisedBy:req.body.supervisedBy,
+        // quantity:parseDouble(req.body.quantity),
+        // rate:parseDouble(req.body.rate),
+        // totalBill:parseDouble(req.body.totalBill),
+        // gst:parseDouble(req.body.gst),
+        // paidBy:req.body.paidBy,
+        // paidAmount:parseDouble(req.body.paidAmount),
+        // pendingBillAmount:parseDouble(req.body.pendingBillAmount),
+        // paidRemarks:req.body.paidRemarks,
+        // srNo:req.body.srNo,
+        // selectedUnit:req.body.selectedUnit,
+        // selectedPaymentMode:req.body.selectedPaymentMode
     }
     items.push(item);
     res.send(items)
