@@ -7,30 +7,37 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(router);
+const fs = require('fs');
 
 var itemsClass = require('../server/models/InventoryModel.js');
-var newitem = new itemsClass.inventoryModel();
-newitem = [
-    itemsSpecification = "thepla",
-    dateOfOrder ="01August",
-    orderedBy = "Neha",
-    // deliveryDate = "02August",
-    // supervisedBy = "Vinit",
-    // quantity = "10",
-    // rate = "20",
-    // totalBill = "200",
-    // gst = "18",
-    // paidBy = "Neha",
-    // paidAmount = "200",
-    // pendingBillAmount = "36",
-    // paidRemarks = "",
-    // srNo = "",
-    // selectedUnit = "",
-    // selectedPaymentMode = "",
-]
+// var newitem = new itemsClass.inventoryModel();
 
-var items = [];
-items.push(newitem)
+// newitem = {
+//     "id" : 0,
+//     "itemsSpecification": "thepla",
+//     "dateOfOrder":"01August",
+//     "orderedBy" : "Neha",
+//     // deliveryDate = "02August",
+//     // supervisedBy = "Vinit",
+//     // quantity = "10",
+//     // rate = "20",
+//     // totalBill = "200",
+//     // gst = "18",
+//     // paidBy = "Neha",
+//     // paidAmount = "200",
+//     // pendingBillAmount = "36",
+//     // paidRemarks = "",
+//     // srNo = "",
+//     // selectedUnit = "",
+//     // selectedPaymentMode = "",
+// }
+
+//var items = [];
+// items.push(newitem)
+
+let rawdata = fs.readFileSync('inventoryData.json');
+let items = JSON.parse(rawdata);
+
 
 app.get("/",(req,res)=>{
     res.send("You called Home")
@@ -44,6 +51,9 @@ app.get("/items/:id",(req,res)=>{
     let itemID = req.params.id;
     console.log(req.params.id)
     let product = items.find((p)=>{return p.id == itemID});
+    let data = JSON.stringify(items);
+    fs.writeFileSync('inventoryData.json', data);
+    res.send(items);
     res.send(product);
 })
 
@@ -55,6 +65,7 @@ app.post("/items",(req,res)=>{
 
     let item = new itemsClass.inventoryModel()
     item = {
+        id:req.body.id,
         itemsSpecification:req.body.itemsSpecification,
         dateOfOrder:req.body.dateOfOrder,
         orderedBy:req.body.orderedBy,
@@ -73,16 +84,51 @@ app.post("/items",(req,res)=>{
         // selectedPaymentMode:req.body.selectedPaymentMode
     }
     items.push(item);
-    res.send(items)
+    let data = JSON.stringify(items);
+    fs.writeFileSync('inventoryData.json', data);
+    res.send(items);
 });
 
-app.put("/",(req,res)=>{
-    
+app.put("/item/:id", (req, res) => {
+    console.log("PUT Request received!");
+    let itemID = req.params.id;
+    let item = items.filter(item => {
+        return item.id == itemID;
+    })[0];
+
+    const index = items.indexOf(item);
+
+    let keys = Object.keys(req.body);
+
+    keys.forEach(key => {
+        item[key] = req.body[key];
+    });
+
+    items[index] = item;
+    let data = JSON.stringify(items);
+    fs.writeFileSync('inventoryData.json', data);
+    res.send(items);
+
+    res.json(items[index]);
 })
 
-app.delete("/",(req,res)=>{
-    
+
+app.delete("/item/:id", (req, res) => {
+    let itemID = req.params.id;
+
+    let item = items.filter(item => {
+        return item.id == itemID;
+    })[0];
+
+    const index = items.indexOf(item);
+
+    items.splice(index, 1);
+    let data = JSON.stringify(items);
+    fs.writeFileSync('inventoryData.json', data);
+    res.send(items);
+    res.json({ message: `User ${itemID} deleted.` });
 })
+
 
 app.listen(5000,()=>{
     console.log("server started")

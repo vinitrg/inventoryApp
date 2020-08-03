@@ -2,6 +2,7 @@ class inventoryModel
 {
     constructor()
     {
+        this.id
         this.itemsSpecification;
         this.dateOfOrder;
         this.orderedBy;
