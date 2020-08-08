@@ -10,34 +10,8 @@ app.use(router);
 const fs = require('fs');
 
 var itemsClass = require('../server/models/InventoryModel.js');
-// var newitem = new itemsClass.inventoryModel();
-
-// newitem = {
-//     "id" : 0,
-//     "itemsSpecification": "thepla",
-//     "dateOfOrder":"01August",
-//     "orderedBy" : "Neha",
-//     // deliveryDate = "02August",
-//     // supervisedBy = "Vinit",
-//     // quantity = "10",
-//     // rate = "20",
-//     // totalBill = "200",
-//     // gst = "18",
-//     // paidBy = "Neha",
-//     // paidAmount = "200",
-//     // pendingBillAmount = "36",
-//     // paidRemarks = "",
-//     // srNo = "",
-//     // selectedUnit = "",
-//     // selectedPaymentMode = "",
-// }
-
-//var items = [];
-// items.push(newitem)
-
 let rawdata = fs.readFileSync('inventoryData.json');
 let items = JSON.parse(rawdata);
-
 
 app.get("/",(req,res)=>{
     res.send("You called Home")
@@ -53,36 +27,45 @@ app.get("/items/:id",(req,res)=>{
     let product = items.find((p)=>{return p.id == itemID});
     let data = JSON.stringify(items);
     fs.writeFileSync('inventoryData.json', data);
-    res.send(items);
     res.send(product);
+})
+
+app.get("/itembyname/:name", (req, res) => {
+    let itemName = req.params.name;
+    let productList = [];
+    items.forEach(item => {
+        if (item.itemsSpecification == itemName) {
+            productList.push(item);
+        }
+    });
+    res.send(productList);
 })
 
 app.post("/items",(req,res)=>{
     console.log("POST Request received!");
-    // console.log(req.body.id);
-    // console.log(req.body.name);
-    // console.log(req.body.price);
 
     let item = new itemsClass.inventoryModel()
     item = {
         id:req.body.id,
         itemsSpecification:req.body.itemsSpecification,
-        dateOfOrder:req.body.dateOfOrder,
+        dateOfOrder:new Date(req.body.dateOfOrder),
         orderedBy:req.body.orderedBy,
-        // deliveryDate:req.body.deliveryDate,
-        // supervisedBy:req.body.supervisedBy,
-        // quantity:parseDouble(req.body.quantity),
-        // rate:parseDouble(req.body.rate),
-        // totalBill:parseDouble(req.body.totalBill),
-        // gst:parseDouble(req.body.gst),
-        // paidBy:req.body.paidBy,
-        // paidAmount:parseDouble(req.body.paidAmount),
-        // pendingBillAmount:parseDouble(req.body.pendingBillAmount),
-        // paidRemarks:req.body.paidRemarks,
-        // srNo:req.body.srNo,
-        // selectedUnit:req.body.selectedUnit,
-        // selectedPaymentMode:req.body.selectedPaymentMode
+        deliveryDate:req.body.deliveryDate,
+        supervisedBy:req.body.supervisedBy,
+        quantity:req.body.quantity,
+        rate:req.body.rate,
+        //totalBill:parseDouble(req.body.totalBill),
+        gst:req.body.gst,
+        paidBy:req.body.paidBy,
+        paidAmount:req.body.paidAmount,
+        //pendingBillAmount:parseDouble(req.body.pendingBillAmount),
+        paidRemarks:req.body.paidRemarks,
+        //srNo:req.body.srNo,
+        selectedUnit:req.body.selectedUnit,
+        selectedPaymentMode:req.body.selectedPaymentMode
     }
+    item.totalBill = item.calculateTotalBill();
+    
     items.push(item);
     let data = JSON.stringify(items);
     fs.writeFileSync('inventoryData.json', data);
